@@ -69,7 +69,9 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ### 7. 如果补丁是修复问题或性能优化相关的，commit message按照问题现象描述、问题触发流程和修复方案来写。参考会话中之前讨论过生成的markdown文件。
 
+### 8. 补丁及所有中间产物（cover-letter、checkpatch日志等）必须输出到当前工作目录（即linux内核源码根目录，例如`/home/wzz/code-watch/linux`），严禁输出到`/tmp`等临时目录。`git format-patch`不要加`-o /tmp`之类的输出路径参数，直接在源码根目录下生成；如需归档可创建子目录（如`patches/`）但必须位于源码根目录之内。
+
 ## 执行流程
 1. 修改代码，并用git生成提交，提交的commit message格式遵守社区规范，参考Documentation/process/submitting-patches.rst。
-2. 生成补丁，对所有新生成的提交做patch生成，如果有多笔提交，需要生成0号补丁(git format-patch -s -n$num --cover-letter --subject-prefix="PATCH")
+2. 生成补丁，在当前工作目录（linux内核源码根目录）下对所有新生成的提交做patch生成，补丁文件必须落在源码根目录（或其下的子目录），禁止输出到`/tmp`等临时目录。如果有多笔提交，需要生成0号补丁(git format-patch -s -n$num --cover-letter --subject-prefix="PATCH")
 3. 对补丁做校验，./script/checkpatch.pl <patch>，确保生成的补丁没有告警和错误
